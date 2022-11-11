@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+    color: black;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+    font-size: 16px;
+}
+
+input[type='text'], input[type='password'] {
+    color: #0F2232;
+}
+
+.login-form {
+    @apply text-center text-2xl p-2 border-[3px] border-[#0F2232] rounded-2xl font-bold
+}
+
+.container {
+    @apply w-full max-w-full px-[120px]
+}
