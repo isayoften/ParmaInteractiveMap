@@ -17,8 +17,8 @@
 
 							<div class="relative w-[81px] h-[55px] p-1 flex border" v-for="i in 35">
 								<div v-show="1 <= i - 3 && i - 3 <= 31"
-								     :class="(getState(i - 3) === 'ok') && 'cursor-pointer'"
-								     @click="bookDate(createDate(i-3), true)">
+								     :class="(getState(i - 3) !== 'cancel') && 'cursor-pointer'"
+								     @click="toggleDate(createDate(i-3), true)">
 									<div>{{ i - 3 }}</div>
 									<img class="absolute left-1/2 top-1/2 h-[70%] -translate-x-1/2 -translate-y-1/2"
 									     :alt="`status ${createDate(i - 3)}`"
@@ -97,7 +97,7 @@ function cancelBook() {
 function getDatesOfMyPlaces() {
 	const dates: string[] = []
 
-	for (let day = 1; day <= 31; day++) {
+	for (let day = getCurrentDay() + 1; day <= 31; day++) {
 		const holder = schedule.value[createDate(day)][floor - 1][roomIndex][placeIndex]
 
 		if (!holder) continue
@@ -151,8 +151,23 @@ function bookDate(date: string, isAlert = false) {
 		if (!confirm(`Вы уверены, что хотите забронировать место на ${new Date(date).toLocaleDateString()}?`))
 			return
 
-
 	schedule.value[date][floor - 1][roomIndex][placeIndex] = JSON.parse(JSON.stringify(auth.user))
+
+	saveSchedule()
+}
+
+function toggleDate(date: string, isAlert = false) {
+	if (schedule.value[date][floor - 1][roomIndex][placeIndex] &&
+	    schedule.value[date][floor - 1][roomIndex][placeIndex]!.id !== auth.user.id) return
+
+	if (!schedule.value[date][floor - 1][roomIndex][placeIndex]) {
+		bookDate(date, isAlert)
+		return
+	}
+
+	if (!confirm(`Вы уверены, что хотите снять бронь на ${new Date(date).toLocaleDateString()}?`)) return
+
+	schedule.value[date][floor - 1][roomIndex][placeIndex] = null
 
 	saveSchedule()
 }

@@ -1,8 +1,8 @@
 <template>
 	<div class="w-full min-h-[calc(100vh-160px)] text-left space-y-8">
 		<div class="min-h-[inherit] flex flex-col justify-between">
-			<div class="flex h-[75px]">
-				<div class="flex space-x-16">
+			<div class="flex h-[70px]">
+				<div class="w-[211px] flex justify-between">
 					<RouterLink to="/profile">
 						<img class="h-full" src="/images/user.svg" alt="user">
 					</RouterLink>
